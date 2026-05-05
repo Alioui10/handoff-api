@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import Optional
 import uuid, datetime, httpx
 from db import save_escalation, get_escalation, resolve_escalation, list_escalations
+from fastapi import Request
 
 app = FastAPI(title="Handoff API", version="0.1.0")
 
@@ -41,6 +42,8 @@ async def escalate(payload: EscalationRequest, x_api_key: str = Header(...)):
     Retourne un escalation_id que l'agent peut utiliser pour vérifier le statut.
     """
     # TODO: valider l'api_key en base
+    body = await request.body()
+    print(body)
     escalation_id = f"esc_{uuid.uuid4().hex[:10]}"
     now = datetime.datetime.utcnow().isoformat()
 

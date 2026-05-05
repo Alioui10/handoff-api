@@ -1,10 +1,18 @@
 from fastapi import FastAPI, HTTPException, Header
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 import uuid, datetime, httpx
 from db import save_escalation, get_escalation, resolve_escalation, list_escalations
 
 app = FastAPI(title="Handoff API", version="0.1.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ─────────────────────────────────────────────
 # MODÈLES
